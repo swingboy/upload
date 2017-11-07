@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+    <form action="/upload" id="form" enctype="multipart/form-data" method="post">
+        <input type="file" id="File" name="name1">
+        <div><input type="submit"></div>
+    </form>
+    <script>
+        var form = $("#form");
+    　　form.on('submit',function() {
+            debugger;
+            var seed = Math.floor(Math.random() * 1000);
+            var id = "uploader-frame-" + seed;
+        　　 var callback = "uploader-cb-" + seed;
+        　　 var iframe = $('<iframe id="'+id+'" name="'+id+'" style="display:none;">');
+        　　 var url = form.attr('action');
+        　　 form.attr('target', id).append(iframe).attr('action', url + '?iframe=' + callback);
+    　　});
+    </script>
+</body>
+</html>

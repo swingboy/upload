@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test formData</title>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+<h1></h1>
+<form id="id-form" enctype="multipart/form-data" method="post" action ="/upload">
+    <label for="id-txt">文本信息</label>
+    <input type="text" id="id-txt" name="name_txt"/>
+    <br><br>
+    <label for="id-file">选择上传的文件</label>
+    <input type="file" id="id-file" name="name_file" />
+    <br><br>
+    <button id="sub-btn">提交</button>
+</form>
+</body>
+</html>
+<script>
+$(document).ready(function () {
+    $("#id-form").on('click','#sub-btn',function () {
+        var formData = new FormData($("#id-form")[0]);
+
+        debugger;
+        $.ajax({
+            url: '/fileuploadChange',
+            type: 'post',
+            data: formData, 
+            timeout:100,
+            contentType: false,
+            processData: false,
+            success: function(data){
+                if(data.result === 'success'){
+                    alert("文件上传成功");
+                }else if(data.result === 'fail'){
+                    alert('文件上传失败：原因:' + data.reason);
+                }
+            },
+            error: function(error){
+                alert('文件上传失败：原因是' + error.status);
+            }
+        });
+    });
+});
+</script>

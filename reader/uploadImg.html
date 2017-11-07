@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.0/jquery.js"></script>
+</head>
+<body>
+	<input type="file" id="picFile"  />
+	<div class="con"></div>
+</body>
+</html>
+<script type="text/javascript">
+	$(function(){
+		$('#picFile').on('change', function(e){
+			var file = $(e.target.files)[0];//File
+			if(!/image\/\w+/.test(file.type)){
+	            return false;   
+	        }
+	        var reader = new FileReader();
+	        reader.readAsDataURL(file);
+	        reader.onload = function(e){
+				console.log(this.result);
+				
+				$('.con').html('<img src="' + this.result +  '"/>')
+	        }
+		});
+	})
+</script>

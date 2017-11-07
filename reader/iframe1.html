@@ -1,0 +1,46 @@
+<html>
+<head>
+    <title>iframe</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="http://libs.baidu.com/jquery/1.8.2/jquery.min.js"></script>
+    <script type="text/javascript">
+    /*
+    思路:
+    1: 点击"提交"时的瞬间,生成一个iframe对象,插入body中
+    2: 修改form的target ,为iframe的name值
+    3: 给iframe加1个事件 ,onload
+    */
+
+    $(function(){
+        $('input:button').click(function() {
+            var ifmname = 'ifm' + Math.random();
+            var ifm = $('<iframe name="' + ifmname + '">');
+            ifm.appendTo($('body'));
+            $('form').attr('target', ifmname);
+            $('form').submit();
+            $('#progress').html('<img src="http://files.jb51.net/file_images/article/201708/loading.gif"/>');
+            ifm.load(function() {
+                $('#progress').html('上传ok');
+                this.remove();
+            });
+        });
+
+        // $('input:button').click(function() {
+        //     $('form').submit();
+        // });
+        
+        //在action属性中规定的页面会在新窗口中打开：
+        //1、需要设置iframe的name值与form的target属性值一样，意思就是把form表单上传文件的刷新转嫁到iframe里去了；
+        //2、form表单的enctype属性值必须设置成multipart/form-data，将文件转换成文件流供后端接收；
+    });
+    </script>
+</head>
+<body>
+    <div id="progress"></div>
+    <form action="/upload" method="post" enctype="multipart/form-data" target="upfile">
+        <input type="file" name="pic" />
+        <br/>
+        <input type="button" value="提交"/>
+    </form>
+</body>
+</html>

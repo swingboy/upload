@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FileReader</title>
+    <script src="/staticfile/filereader.js"></script>
+</head>
+<body>
+    <form action="/upload" enctype="multipart/form-data" method="post">
+            <legend>读取文件：</legend>
+            <input type="file" id="File" name="name1">
+            <input type="button" value="中断" id="Abort">
+            <p>
+                <lable>读取进度：</lable>
+                <progress id="Progress" value="0" max="100"></progress>
+            </p>
+        <div><input type="submit"></div>
+    </form>
+    <script>
+        var progress = document.getElementById('Progress');
+        var events = {
+            load: function () {
+                console.log('loaded');
+            },
+            progress: function (percent) {
+                console.log(percent);
+                progress.value = percent;
+            },
+            success: function () {
+                console.log('success');
+            }
+        };
+
+        var loader;
+
+        document.getElementById('File').onchange = function (e) {
+            var file = this.files[0];
+            loader = new FileLoader(file, events);
+        };
+
+        document.getElementById('Abort').onclick = function () {
+            loader.abort();
+        }
+    </script>
+</body>
+</html>
